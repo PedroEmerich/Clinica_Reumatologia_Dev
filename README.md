@@ -30,16 +30,28 @@ O botão **Restaurar**, na barra escura do topo, volta os dados ao estado inicia
 
 ## Rodar localmente
 
+Precisa do [Node.js](https://nodejs.org) 20 ou mais novo.
+
 ```bash
+git clone https://github.com/PedroEmerich/Clinica_Reumatologia_Dev.git
+cd Clinica_Reumatologia_Dev
 npm install
 npm run dev
 ```
 
+Abra `http://localhost:5173` no computador. O terminal também mostra um endereço `Network`, como `http://192.168.0.10:5173`: com o celular **na mesma rede Wi-Fi**, abra esse endereço no navegador do celular.
+
 Para gerar a versão de produção: `npm run build` (sai em `dist/`).
 
-## Publicação
+## Publicação (link para celular e desktop)
 
-O workflow `.github/workflows/deploy.yml` publica no GitHub Pages a cada push na `main` (em *Settings → Pages*, escolha *GitHub Actions* como fonte). As rotas usam `#` (HashRouter) e os caminhos são relativos, então funciona em qualquer subpasta sem configurar servidor.
+O workflow `.github/workflows/deploy.yml` publica no GitHub Pages a cada push. Na primeira vez:
+
+1. No GitHub, vá em *Settings → Pages* e, em *Source*, escolha **GitHub Actions**.
+2. Em *Actions → Publicar no GitHub Pages*, clique em **Run workflow**.
+3. O site fica em `https://pedroemerich.github.io/Clinica_Reumatologia_Dev/`.
+
+As rotas usam `#` (HashRouter) e os caminhos são relativos, então funciona em qualquer subpasta sem configurar servidor.
 
 ## Estrutura
 
