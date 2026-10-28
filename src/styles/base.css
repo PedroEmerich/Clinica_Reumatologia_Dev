@@ -1,0 +1,76 @@
+/* ==========================================================================
+   Creass · Portal — base
+   Paleta da marca (a mesma da landing page): vermelho #B3121D · bordô #7E0F17
+   cinza #D6D6D6 · off-white #F7F2EE · rosé #F6E4E3 · grafite #2A2A2A · cinza médio #6B6B6B
+   ========================================================================== */
+
+@font-face { font-family: "Instrument Serif"; src: url("/fonts/instrument-serif-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("/fonts/instrument-serif-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Geist"; src: url("/fonts/geist-variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url("/fonts/geist-mono-variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+
+:root {
+  --serif: "Instrument Serif", "Iowan Old Style", "Times New Roman", serif;
+  --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --red: #b3121d;
+  --wine: #7e0f17;
+  --gray: #d6d6d6;
+  --bg: #f7f2ee;
+  --rose: #f6e4e3;
+  --rose-2: #fdf6f5;
+  --fg: #2a2a2a;
+  --muted: #6b6b6b;
+  --line: rgba(42, 42, 42, .12);
+  --line-2: rgba(42, 42, 42, .2);
+  --surface: #ffffff;
+  --graphite: #2a2a2a;
+  --graphite-2: #333030;
+  --open: #2e9e6a;
+
+  /* status (sempre com rótulo ao lado) */
+  --st-green: #23794f;   --st-green-bg: #e3f1e9;
+  --st-amber: #8a5a00;   --st-amber-bg: #fbefd5;
+  --st-blue: #1f5a8a;    --st-blue-bg: #e2edf6;
+  --st-red: #b3121d;     --st-red-bg: #f9dfe0;
+  --st-wine: #7e0f17;    --st-wine-bg: #efd9da;
+  --st-muted: #6b6b6b;   --st-muted-bg: #ecebea;
+
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --radius: 6px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 2px rgba(42, 42, 42, .04), 0 8px 24px -12px rgba(42, 42, 42, .12);
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --tabbar-h: 4.25rem;
+  --demobar-h: 2.25rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; background: var(--bg); }
+html.no-scroll { overflow: hidden; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+button:disabled { cursor: not-allowed; }
+input, select, textarea { font: inherit; color: inherit; }
+h1, h2, h3, p, ul, ol, dl, dd, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+em { font-style: italic; }
+small { font-size: .82em; }
+::selection { background: var(--red); color: #fff; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
