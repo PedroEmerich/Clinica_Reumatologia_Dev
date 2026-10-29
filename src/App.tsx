@@ -16,6 +16,7 @@ import { Requests } from './staff/Requests'
 import { StaffLayout } from './staff/StaffLayout'
 import { RequirePage } from './staff/RequirePage'
 import { Team } from './staff/Team'
+import { Reports } from './staff/Reports'
 import { Users } from './staff/Users'
 
 function ScrollTop() {
@@ -52,6 +53,7 @@ export function App() {
               <Route path="solicitacoes" element={<RequirePage page="solicitacoes"><Requests /></RequirePage>} />
               <Route path="pacientes" element={<RequirePage page="pacientes"><Patients /></RequirePage>} />
               <Route path="profissionais" element={<RequirePage page="profissionais"><Team /></RequirePage>} />
+              <Route path="relatorios" element={<RequirePage page="relatorios"><Reports /></RequirePage>} />
               <Route path="usuarios" element={<RequirePage page="usuarios"><Users /></RequirePage>} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />

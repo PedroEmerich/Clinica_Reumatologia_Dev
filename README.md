@@ -20,7 +20,8 @@ Visual baseado na [landing page da clínica](https://pedroemerich.github.io/Clin
 - Agenda em grade por profissional (dia) ou por semana, com linha do "agora", horário de almoço, clique em horário livre para agendar e clique na consulta para abrir o painel (status, pré-consulta, remarcar, cancelar com motivo, observações internas)
 - Solicitações feitas pelo portal e pelo WhatsApp, com confirmação individual ou de todas
 - Pacientes com busca, filtro por convênio, ficha com histórico e cadastro de novos pacientes
-- Profissionais e horários: dias de atendimento, início e fim, duração da consulta e bloqueios de data. As mudanças aparecem na hora para o paciente.
+- Profissionais e horários: cadastro de novos profissionais (com opção de já criar o acesso ao sistema), edição, desativação, dias de atendimento, início e fim, duração da consulta e bloqueios de data. As mudanças aparecem na hora para o paciente
+- Relatórios dos últimos 7, 30 ou 90 dias: consultas realizadas, primeiras consultas, taxa de faltas, cancelamentos e agendamentos pelo portal (com comparação ao período anterior), volume por dia ou semana, por especialidade, por convênio e por canal, e desempenho por profissional. Exporta planilha (CSV) e imprime ou salva em PDF
 
 ## Login da equipe e cargos
 
@@ -29,8 +30,8 @@ A equipe entra só com **e-mail e senha**. O cargo vem do cadastro do usuário (
 | Cargo | O que vê |
 | --- | --- |
 | Recepção | Painel do dia, agenda de todos os profissionais, solicitações e pacientes |
-| Corpo clínico | "Meu dia", a própria agenda, os próprios pacientes e os próprios horários. O login fica vinculado a um profissional |
-| Gestão | Tudo, incluindo profissionais e horários e a tela **Usuários**, onde se cadastra a equipe e se escolhe o cargo |
+| Corpo clínico | "Meu dia", a própria agenda, os próprios pacientes, os próprios horários e os próprios relatórios. O login fica vinculado a um profissional |
+| Gestão | Tudo, incluindo cadastro de profissionais, relatórios da clínica inteira e a tela **Usuários**, onde se cadastra a equipe e se escolhe o cargo |
 
 Telas fora do cargo somem do menu e também ficam bloqueadas se alguém digitar o endereço direto.
 

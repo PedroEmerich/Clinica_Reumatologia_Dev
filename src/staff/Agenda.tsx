@@ -30,7 +30,7 @@ export function Agenda() {
   const works = (d: Doctor, iso: string) => !!d.schedule[weekday(iso) as 0]
   let cols: Col[]
   if (view === 'dia') {
-    cols = db.doctors.filter(d => works(d, date) && (!ownDoc || d.id === ownDoc)).map(d => ({ key: d.id, date, doc: d, label: d.short, sub: specialtyById(d.specialtyId).name }))
+    cols = db.doctors.filter(d => !d.inactive && works(d, date) && (!ownDoc || d.id === ownDoc)).map(d => ({ key: d.id, date, doc: d, label: d.short, sub: specialtyById(d.specialtyId).name }))
   } else {
     const doc = db.doctors.find(d => d.id === docId)!
     const mon = startOfWeek(date)
@@ -61,7 +61,7 @@ export function Agenda() {
         <div className="toolbar__group">
           {view === 'semana' && !ownDoc && (
             <select className="select-sm" value={docId} onChange={e => setDocId(e.target.value)} aria-label="Profissional">
-              {db.doctors.map(d => <option key={d.id} value={d.id}>{d.short}</option>)}
+              {db.doctors.filter(d => !d.inactive).map(d => <option key={d.id} value={d.id}>{d.short}</option>)}
             </select>
           )}
           <Segmented label="Visualização" value={view} onChange={setView} options={[{ value: 'dia', label: 'Dia' }, { value: 'semana', label: 'Semana' }]} />

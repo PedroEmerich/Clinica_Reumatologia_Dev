@@ -10,7 +10,7 @@ import { ROLES, type StaffPage } from '../lib/roles'
 import { useStore } from '../lib/store'
 
 const PAGE_LABEL: Record<StaffPage, string> = {
-  painel: 'Painel do dia', agenda: 'Agenda', solicitacoes: 'Solicitações', pacientes: 'Pacientes', profissionais: 'Profissionais e horários', usuarios: 'Usuários da equipe',
+  painel: 'Painel do dia', agenda: 'Agenda', solicitacoes: 'Solicitações', pacientes: 'Pacientes', profissionais: 'Profissionais e horários', relatorios: 'Relatórios', usuarios: 'Usuários da equipe',
 }
 const ROLE_ORDER: StaffRole[] = ['recepcao', 'medico', 'gestao']
 const EMPTY = { name: '', email: '', role: 'recepcao' as StaffRole, doctorId: '' }
@@ -29,7 +29,7 @@ export function Users() {
   }
 
   // Profissionais que ainda não têm login vinculado
-  const freeDoctors = db.doctors.filter(d => !db.staff.some(u => u.doctorId === d.id && (editing === 'novo' || u.id !== editing?.id)))
+  const freeDoctors = db.doctors.filter(d => !d.inactive && !db.staff.some(u => u.doctorId === d.id && (editing === 'novo' || u.id !== editing?.id)))
 
   const save = () => {
     const email = form.email.trim().toLowerCase()

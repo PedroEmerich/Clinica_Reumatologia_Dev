@@ -133,7 +133,8 @@ export function buildDB(): DB {
   add({ patientId: 'p1', doctorId: 'd1', date: nextWd(3, [1, 2, 3, 4]), time: '09:30', type: 'retorno', insurance: 'Unimed', status: 'confirmado', origin: 'paciente', createdAt: addDays(today, -20) })
   add({ patientId: 'p1', doctorId: 'd2', date: nextWd(9, [2, 4]), time: '15:00', type: 'primeira', insurance: 'Unimed', status: 'pendente', origin: 'paciente', createdAt: addDays(today, -1) })
 
-  for (let off = -21; off <= 28; off++) {
+  // 90 dias de histórico alimentam os relatórios
+  for (let off = -90; off <= 28; off++) {
     const date = addDays(today, off)
     for (const doc of DOCTORS) {
       const base = doc.id === 'd1' ? 0.62 : 0.4

@@ -22,6 +22,8 @@ export interface Doctor {
   blocked: string[]
   /** apenas para dados de exemplo (profissionais fictícios) */
   sample?: boolean
+  /** desativado: some do agendamento, mas o histórico continua */
+  inactive?: boolean
 }
 
 export interface Patient {

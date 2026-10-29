@@ -46,6 +46,7 @@ interface Store {
   addPatient: (p: Omit<Patient, 'id' | 'since'>) => Patient
   updatePatient: (id: string, patch: Partial<Patient>) => void
   updateDoctor: (id: string, patch: Partial<Doctor>) => void
+  addDoctor: (d: Omit<Doctor, 'id' | 'blocked'>) => Doctor
   notify: (n: Omit<Notice, 'id' | 'at' | 'read'>) => void
   markRead: (to: Notice['to']) => void
   reset: () => void
@@ -147,6 +148,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       },
       updatePatient(id, patch) { update(d => ({ ...d, patients: d.patients.map(p => (p.id === id ? { ...p, ...patch } : p)) })) },
       updateDoctor(id, patch) { update(d => ({ ...d, doctors: d.doctors.map(x => (x.id === id ? { ...x, ...patch } : x)) })) },
+      addDoctor(input) {
+        const nd: Doctor = { ...input, id: newId('d'), blocked: [] }
+        update(d => ({ ...d, doctors: [...d.doctors, nd] }))
+        return nd
+      },
       notify(n) { update(d => ({ ...d, notices: [notice(n), ...d.notices] })) },
       markRead(to) { update(d => ({ ...d, notices: d.notices.map(n => (n.to === to ? { ...n, read: true } : n)) })) },
       me: db.staff.find(u => u.id === sessionId && u.active) ?? null,

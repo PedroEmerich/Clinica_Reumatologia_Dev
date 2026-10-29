@@ -33,7 +33,7 @@ export function Booking() {
 
   const today = todayISO()
   const maxDate = addDays(today, 60)
-  const doctors = db.doctors.filter(d => d.specialtyId === specId)
+  const doctors = db.doctors.filter(d => d.specialtyId === specId && !d.inactive)
   const slots = docId && date ? freeSlots(docId, date, original?.id) : []
   const firstFree = useMemo(() => {
     const out: Record<string, string | null> = {}
@@ -120,7 +120,7 @@ export function Booking() {
           <section>
             <h1 className="page-title">Qual <em>especialidade</em>?</h1>
             <div className="spec-grid">
-              {SPECIALTIES.map((s, i) => (
+              {SPECIALTIES.filter(s => db.doctors.some(d => d.specialtyId === s.id && !d.inactive)).map((s, i) => (
                 <button key={s.id} className={`spec${specId === s.id ? ' is-on' : ''}`} onClick={() => { setSpecId(s.id); setDocId(null); setDate(null); setTime(null); setStep(1) }}>
                   <span className="spec__num">{String(i + 1).padStart(2, '0')}</span>
                   <span className="spec__name">{s.name}</span>

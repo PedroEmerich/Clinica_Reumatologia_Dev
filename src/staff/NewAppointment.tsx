@@ -42,7 +42,7 @@ export function NewAppointment({ open, onClose, prefill }: { open: boolean; onCl
     return db.patients.filter(p => p.name.toLowerCase().includes(s) || p.cpf.includes(s) || p.phone.includes(s)).slice(0, 6)
   }, [q, db.patients])
 
-  const docs = db.doctors.filter(d => d.specialtyId === specId)
+  const docs = db.doctors.filter(d => d.specialtyId === specId && !d.inactive)
   const slots = freeSlots(docId, date)
   const slotOptions = time && !slots.includes(time) ? [time, ...slots] : slots
   const ready = (patientId || (creating && np.name.trim())) && time
@@ -92,8 +92,8 @@ export function NewAppointment({ open, onClose, prefill }: { open: boolean; onCl
         </div>
 
         <label className="field"><span>Especialidade</span>
-          <select value={specId} disabled={!!ownDoc} onChange={e => { setSpecId(e.target.value); const d = db.doctors.find(x => x.specialtyId === e.target.value); if (d) setDocId(d.id); setTime('') }}>
-            {SPECIALTIES.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+          <select value={specId} disabled={!!ownDoc} onChange={e => { setSpecId(e.target.value); const d = db.doctors.find(x => x.specialtyId === e.target.value && !x.inactive); if (d) setDocId(d.id); setTime('') }}>
+            {SPECIALTIES.filter(s => db.doctors.some(d => d.specialtyId === s.id && !d.inactive)).map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
           </select>
         </label>
         <label className="field"><span>Profissional</span>

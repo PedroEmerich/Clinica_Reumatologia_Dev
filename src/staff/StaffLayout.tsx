@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { Bell, CalendarDays, Inbox, LayoutDashboard, LogOut, ShieldCheck, Stethoscope, Users } from 'lucide-react'
+import { Bell, CalendarDays, ChartColumn, Inbox, LayoutDashboard, LogOut, ShieldCheck, Stethoscope, Users } from 'lucide-react'
 import { DemoBar } from '../components/DemoBar'
 import { Logo } from '../components/Logo'
 import { Modal } from '../components/Modal'
@@ -25,6 +25,7 @@ export function StaffLayout() {
     { page: 'solicitacoes', to: '/equipe/solicitacoes', label: 'Solicitações', short: 'Pedidos', icon: Inbox, badge: pending },
     { page: 'pacientes', to: '/equipe/pacientes', label: medico ? 'Meus pacientes' : 'Pacientes', short: 'Pacientes', icon: Users },
     { page: 'profissionais', to: '/equipe/profissionais', label: medico ? 'Meus horários' : 'Profissionais', short: medico ? 'Horários' : 'Equipe', icon: Stethoscope },
+    { page: 'relatorios', to: '/equipe/relatorios', label: medico ? 'Meus relatórios' : 'Relatórios', short: 'Relatórios', icon: ChartColumn },
     { page: 'usuarios', to: '/equipe/usuarios', label: 'Usuários', icon: ShieldCheck },
   ]
   const NAV = ALL.filter(n => can(me.role, n.page))

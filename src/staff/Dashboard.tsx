@@ -32,7 +32,7 @@ export function Dashboard() {
   const nextUp = todays.find(a => ['confirmado', 'pendente'].includes(a.status) && timeToMin(a.time) >= now - 15)
 
   const week = startOfWeek(today)
-  const occupancy = db.doctors.filter(d => !ownDoc || d.id === ownDoc).map(d => {
+  const occupancy = db.doctors.filter(d => !d.inactive).filter(d => !ownDoc || d.id === ownDoc).map(d => {
     let total = 0, used = 0
     for (let i = 0; i < 5; i++) {
       const date = addDays(week, i)

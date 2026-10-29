@@ -1,6 +1,6 @@
 import type { StaffRole } from '../data/types'
 
-export type StaffPage = 'painel' | 'agenda' | 'solicitacoes' | 'pacientes' | 'profissionais' | 'usuarios'
+export type StaffPage = 'painel' | 'agenda' | 'solicitacoes' | 'pacientes' | 'profissionais' | 'relatorios' | 'usuarios'
 
 export const ROLES: Record<StaffRole, { label: string; desc: string; pages: StaffPage[] }> = {
   recepcao: {
@@ -10,13 +10,13 @@ export const ROLES: Record<StaffRole, { label: string; desc: string; pages: Staf
   },
   medico: {
     label: 'Corpo clínico',
-    desc: 'Somente a própria agenda, os próprios pacientes e os próprios horários.',
-    pages: ['painel', 'agenda', 'pacientes', 'profissionais'],
+    desc: 'Somente a própria agenda, os próprios pacientes, horários e relatórios.',
+    pages: ['painel', 'agenda', 'pacientes', 'profissionais', 'relatorios'],
   },
   gestao: {
     label: 'Gestão',
-    desc: 'Acesso completo, incluindo profissionais, horários e usuários da equipe.',
-    pages: ['painel', 'agenda', 'solicitacoes', 'pacientes', 'profissionais', 'usuarios'],
+    desc: 'Acesso completo, incluindo profissionais, relatórios e usuários da equipe.',
+    pages: ['painel', 'agenda', 'solicitacoes', 'pacientes', 'profissionais', 'relatorios', 'usuarios'],
   },
 }
 
