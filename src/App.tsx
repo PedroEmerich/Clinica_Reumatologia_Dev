@@ -14,7 +14,9 @@ import { Dashboard } from './staff/Dashboard'
 import { Patients } from './staff/Patients'
 import { Requests } from './staff/Requests'
 import { StaffLayout } from './staff/StaffLayout'
+import { RequirePage } from './staff/RequirePage'
 import { Team } from './staff/Team'
+import { Users } from './staff/Users'
 
 function ScrollTop() {
   const { pathname } = useLocation()
@@ -46,10 +48,11 @@ export function App() {
             </Route>
             <Route path="/equipe" element={<StaffLayout />}>
               <Route index element={<Dashboard />} />
-              <Route path="agenda" element={<Agenda />} />
-              <Route path="solicitacoes" element={<Requests />} />
-              <Route path="pacientes" element={<Patients />} />
-              <Route path="profissionais" element={<Team />} />
+              <Route path="agenda" element={<RequirePage page="agenda"><Agenda /></RequirePage>} />
+              <Route path="solicitacoes" element={<RequirePage page="solicitacoes"><Requests /></RequirePage>} />
+              <Route path="pacientes" element={<RequirePage page="pacientes"><Patients /></RequirePage>} />
+              <Route path="profissionais" element={<RequirePage page="profissionais"><Team /></RequirePage>} />
+              <Route path="usuarios" element={<RequirePage page="usuarios"><Users /></RequirePage>} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

@@ -22,6 +22,22 @@ Visual baseado na [landing page da clínica](https://pedroemerich.github.io/Clin
 - Pacientes com busca, filtro por convênio, ficha com histórico e cadastro de novos pacientes
 - Profissionais e horários: dias de atendimento, início e fim, duração da consulta e bloqueios de data. As mudanças aparecem na hora para o paciente.
 
+## Login da equipe e cargos
+
+A equipe entra só com **e-mail e senha**. O cargo vem do cadastro do usuário (na versão final, do banco de dados) e decide o que aparece depois do login:
+
+| Cargo | O que vê |
+| --- | --- |
+| Recepção | Painel do dia, agenda de todos os profissionais, solicitações e pacientes |
+| Corpo clínico | "Meu dia", a própria agenda, os próprios pacientes e os próprios horários. O login fica vinculado a um profissional |
+| Gestão | Tudo, incluindo profissionais e horários e a tela **Usuários**, onde se cadastra a equipe e se escolhe o cargo |
+
+Telas fora do cargo somem do menu e também ficam bloqueadas se alguém digitar o endereço direto.
+
+Contas de demonstração (senha de todas: `demonstracao`): `recepcao@creass.com.br`, `andrea@creass.com.br` e `gestao@creass.com.br`. A tela de login tem atalhos para elas. Também existe `bruno@creass.com.br`, desativado, para mostrar o bloqueio de acesso.
+
+A sessão vale por aba, então dá para abrir a recepção numa aba e a médica em outra.
+
 ## Dica para a apresentação
 
 Abra o paciente e a equipe em **duas abas lado a lado**. As abas ficam sincronizadas: um pedido feito pelo paciente aparece em Solicitações, e a confirmação da recepção aparece nos avisos do paciente.

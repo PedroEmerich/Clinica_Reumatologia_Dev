@@ -17,11 +17,12 @@ const PX = 1.7
 interface Col { key: string; date: string; doc: Doctor; label: string; sub: string }
 
 export function Agenda() {
-  const { db } = useStore()
+  const { db, me } = useStore()
+  const ownDoc = me?.role === 'medico' ? me.doctorId : undefined
   const today = todayISO()
   const [view, setView] = useState<'dia' | 'semana'>('dia')
   const [date, setDate] = useState(today)
-  const [docId, setDocId] = useState('d1')
+  const [docId, setDocId] = useState(ownDoc ?? 'd1')
   const [pick, setPick] = useState(false)
   const [openId, setOpenId] = useState<string | null>(null)
   const [prefill, setPrefill] = useState<Prefill | null>(null)
@@ -29,7 +30,7 @@ export function Agenda() {
   const works = (d: Doctor, iso: string) => !!d.schedule[weekday(iso) as 0]
   let cols: Col[]
   if (view === 'dia') {
-    cols = db.doctors.filter(d => works(d, date)).map(d => ({ key: d.id, date, doc: d, label: d.short, sub: specialtyById(d.specialtyId).name }))
+    cols = db.doctors.filter(d => works(d, date) && (!ownDoc || d.id === ownDoc)).map(d => ({ key: d.id, date, doc: d, label: d.short, sub: specialtyById(d.specialtyId).name }))
   } else {
     const doc = db.doctors.find(d => d.id === docId)!
     const mon = startOfWeek(date)
@@ -58,7 +59,7 @@ export function Agenda() {
           </div>
         </div>
         <div className="toolbar__group">
-          {view === 'semana' && (
+          {view === 'semana' && !ownDoc && (
             <select className="select-sm" value={docId} onChange={e => setDocId(e.target.value)} aria-label="Profissional">
               {db.doctors.map(d => <option key={d.id} value={d.id}>{d.short}</option>)}
             </select>
@@ -74,7 +75,7 @@ export function Agenda() {
       </div>
 
       {cols.length === 0 ? (
-        <div className="card"><p className="muted">Nenhum profissional atende neste dia. A clínica funciona de segunda a sexta.</p></div>
+        <div className="card"><p className="muted">{ownDoc ? 'Você não atende neste dia. Veja a semana ou escolha outra data.' : 'Nenhum profissional atende neste dia. A clínica funciona de segunda a sexta.'}</p></div>
       ) : (
         <div className="grid-wrap">
           <div className="sched" style={{ ['--cols' as string]: cols.length }}>

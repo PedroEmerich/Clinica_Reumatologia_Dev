@@ -84,8 +84,22 @@ export interface Notice {
   read: boolean
 }
 
+export type StaffRole = 'recepcao' | 'medico' | 'gestao'
+
+export interface StaffUser {
+  id: string
+  name: string
+  email: string
+  role: StaffRole
+  /** profissional vinculado, quando o cargo é médico */
+  doctorId?: string
+  active: boolean
+  createdAt: string
+}
+
 export interface DB {
   seededOn: string
+  staff: StaffUser[]
   doctors: Doctor[]
   patients: Patient[]
   appointments: Appointment[]

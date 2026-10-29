@@ -1,6 +1,6 @@
 import { addDays, minToTime, nowMin, todayISO, weekday } from '../lib/date'
 import { CLINIC, INSURANCES, specialtyById } from './clinic'
-import type { Appointment, DB, Doctor, Patient, Status } from './types'
+import type { Appointment, DB, Doctor, Patient, StaffUser, Status } from './types'
 
 // Gerador pseudoaleatório com semente fixa: a demo fica igual em todo carregamento
 function rng(seed: number) {
@@ -41,6 +41,15 @@ export const DOCTORS: Doctor[] = [
     id: 'd6', name: 'Dr. Marcelo Tavares', short: 'Dr. Marcelo', initials: 'MT', title: 'Clínico geral',
     council: 'CRM-SP 000000', specialtyId: 'clinica', schedule: { 1: [480, 1020], 2: [480, 1020], 5: [510, 1020] }, slot: 30, blocked: [], sample: true,
   },
+]
+
+// Contas de demonstração da equipe (senha de todas: demonstracao)
+export const STAFF: Omit<StaffUser, 'createdAt'>[] = [
+  { id: 'u1', name: 'Juliana Prado', email: 'recepcao@creass.com.br', role: 'recepcao', active: true },
+  { id: 'u2', name: 'Dra. Andrea Soares dos Santos', email: 'andrea@creass.com.br', role: 'medico', doctorId: 'd1', active: true },
+  { id: 'u3', name: 'Renata Okada', email: 'gestao@creass.com.br', role: 'gestao', active: true },
+  { id: 'u4', name: 'Dr. Rafael Moura', email: 'rafael@creass.com.br', role: 'medico', doctorId: 'd2', active: true },
+  { id: 'u5', name: 'Bruno Lima', email: 'bruno@creass.com.br', role: 'recepcao', active: false },
 ]
 
 const FIRST = ['Mariana', 'José', 'Ana', 'Carlos', 'Beatriz', 'Antônio', 'Luciana', 'Paulo', 'Fernanda', 'Roberto', 'Cláudia', 'Eduardo',
@@ -160,6 +169,7 @@ export function buildDB(): DB {
 
   return {
     seededOn: today,
+    staff: STAFF.map(u => ({ ...u, createdAt: '2024-02-01' })),
     doctors: DOCTORS.map(d => ({ ...d, blocked: [...d.blocked] })),
     patients,
     appointments: appts.sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)),

@@ -10,7 +10,8 @@ import { AppointmentPanel } from './AppointmentPanel'
 import { NewAppointment } from './NewAppointment'
 
 export function Patients() {
-  const { db, doctor, addPatient } = useStore()
+  const { db, doctor, addPatient, me } = useStore()
+  const ownDoc = me?.role === 'medico' ? me.doctorId : undefined
   const toast = useToast()
   const [q, setQ] = useState('')
   const [ins, setIns] = useState('todos')
@@ -24,6 +25,7 @@ export function Patients() {
   const rows = useMemo(() => {
     const s = q.trim().toLowerCase()
     return db.patients
+      .filter(p => !ownDoc || db.appointments.some(a => a.patientId === p.id && a.doctorId === ownDoc))
       .filter(p => (ins === 'todos' || p.insurance === ins) && (!s || p.name.toLowerCase().includes(s) || p.cpf.includes(s) || p.phone.includes(s)))
       .map(p => {
         const appts = db.appointments.filter(a => a.patientId === p.id)
@@ -32,14 +34,14 @@ export function Patients() {
         return { p, last, next, total: appts.filter(a => a.status === 'concluido').length }
       })
       .sort((a, b) => a.p.name.localeCompare(b.p.name))
-  }, [db, q, ins, today])
+  }, [db, q, ins, today, ownDoc])
 
   const sel = openId ? db.patients.find(p => p.id === openId) : null
   const history = sel ? db.appointments.filter(a => a.patientId === sel.id).slice().reverse() : []
 
   return (
     <div className="stack">
-      <PageHead index="04" eyebrow="Cadastro" title={<><em>Pacientes</em></>}>
+      <PageHead index="04" eyebrow="Cadastro" title={ownDoc ? <>Meus <em>pacientes</em></> : <><em>Pacientes</em></>}>
         <button className="btn btn--primary" onClick={() => setCreating(true)}><UserPlus size={18} /> Novo paciente</button>
       </PageHead>
 

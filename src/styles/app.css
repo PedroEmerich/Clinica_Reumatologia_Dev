@@ -710,3 +710,30 @@
 .week-edit__times { display: flex; align-items: center; gap: .35rem; font-size: .82rem; color: var(--muted); }
 .week-edit__times select { padding: .3rem .4rem; border: 1px solid var(--line-2); border-radius: 6px; background: var(--surface); font-size: .85rem; color: var(--fg); }
 .page-title::first-letter { text-transform: uppercase; }
+
+/* ---------- Login por cargo e usuários da equipe ---------- */
+.form-error { padding: .65rem .9rem; border-radius: var(--radius); background: var(--st-red-bg); color: var(--st-red); font-size: .88rem; }
+.demo-accounts { display: grid; gap: .4rem; padding-top: 1.1rem; border-top: 1px dashed var(--line-2); }
+.demo-accounts .eyebrow { margin-bottom: .2rem; }
+.demo-accounts code { font-family: var(--mono); font-size: .85em; color: var(--fg); }
+.demo-account { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .55rem .85rem; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); font-size: .88rem; transition: border-color .2s; }
+.demo-account small { color: var(--muted); font-family: var(--mono); font-size: .72rem; }
+.demo-account:hover, .demo-account.is-on { border-color: var(--red); }
+.demo-account.is-on b { color: var(--red); }
+.role-chip { display: inline-block; padding: .1rem .55rem; border-radius: 999px; font-size: .72rem; font-weight: 500; background: var(--rose); color: var(--wine); }
+.role-chip--medico { background: var(--st-blue-bg); color: var(--st-blue); }
+.role-chip--gestao { background: var(--graphite); color: #f7f2ee; }
+.role-pick { display: grid; gap: .5rem; }
+.role-pick__opt { display: grid; gap: .15rem; padding: .8rem 1rem; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); text-align: left; transition: border-color .2s, box-shadow .2s; }
+.role-pick__opt small { color: var(--muted); font-size: .8rem; }
+.role-pick__opt.is-on { border-color: var(--red); box-shadow: inset 0 0 0 1px var(--red); }
+.role-pick__opt.is-on b { color: var(--red); }
+.table tr.is-off td { opacity: .5; }
+.perm-grid { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+.perm { display: grid; gap: .5rem; align-content: start; }
+.perm .role-chip { justify-self: start; }
+.perm ul { display: grid; gap: .25rem; font-size: .85rem; }
+.perm li { display: flex; align-items: center; gap: .4rem; }
+.perm li.no { color: var(--muted); text-decoration: line-through; }
+@media (min-width: 900px) { .st__top-exit { display: none; } }
+@media (max-width: 420px) { .st__top-date { display: none; } }

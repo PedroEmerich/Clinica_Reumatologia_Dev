@@ -11,7 +11,8 @@ import { useStore } from '../lib/store'
 export interface Prefill { doctorId?: string; date?: string; time?: string; patientId?: string }
 
 export function NewAppointment({ open, onClose, prefill }: { open: boolean; onClose: () => void; prefill?: Prefill }) {
-  const { db, doctor, patient, freeSlots, book, addPatient } = useStore()
+  const { db, doctor, patient, freeSlots, book, addPatient, me } = useStore()
+  const ownDoc = me?.role === 'medico' ? me.doctorId : undefined
   const toast = useToast()
   const [q, setQ] = useState('')
   const [patientId, setPatientId] = useState<string | null>(null)
@@ -27,7 +28,7 @@ export function NewAppointment({ open, onClose, prefill }: { open: boolean; onCl
 
   useEffect(() => {
     if (!open) return
-    const d = prefill?.doctorId ? doctor(prefill.doctorId) : null
+    const d = prefill?.doctorId ? doctor(prefill.doctorId) : ownDoc ? doctor(ownDoc) : null
     setQ(''); setCreating(false); setNp({ name: '', phone: '', cpf: '', birth: '' })
     setPatientId(prefill?.patientId ?? null)
     if (prefill?.patientId) setInsurance(patient(prefill.patientId).insurance)
@@ -91,12 +92,12 @@ export function NewAppointment({ open, onClose, prefill }: { open: boolean; onCl
         </div>
 
         <label className="field"><span>Especialidade</span>
-          <select value={specId} onChange={e => { setSpecId(e.target.value); const d = db.doctors.find(x => x.specialtyId === e.target.value); if (d) setDocId(d.id); setTime('') }}>
+          <select value={specId} disabled={!!ownDoc} onChange={e => { setSpecId(e.target.value); const d = db.doctors.find(x => x.specialtyId === e.target.value); if (d) setDocId(d.id); setTime('') }}>
             {SPECIALTIES.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
           </select>
         </label>
         <label className="field"><span>Profissional</span>
-          <select value={docId} onChange={e => { setDocId(e.target.value); setTime('') }}>{docs.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}</select>
+          <select value={docId} disabled={!!ownDoc} onChange={e => { setDocId(e.target.value); setTime('') }}>{docs.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}</select>
         </label>
         <label className="field"><span>Data</span><input type="date" value={date} min={todayISO()} onChange={e => { setDate(e.target.value); setTime('') }} /></label>
         <label className="field"><span>Horário</span>

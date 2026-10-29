@@ -1,9 +1,19 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { buildDB, doctorSlots, newId } from '../data/seed'
-import type { Appointment, DB, Doctor, Notice, Patient, PreCheck, Status } from '../data/types'
+import type { Appointment, DB, Doctor, Notice, Patient, PreCheck, StaffUser, Status } from '../data/types'
 import { nowMin, timeToMin, todayISO } from './date'
 
 const KEY = 'creass-demo-v1'
+// Sessão por aba: dá para abrir recepção e médica lado a lado
+const SESSION = 'creass-session'
+const DEMO_PASSWORD = 'demonstracao'
+
+function readSession(): string | null {
+  try { return sessionStorage.getItem(SESSION) } catch { return null }
+}
+function writeSession(id: string | null) {
+  try { id ? sessionStorage.setItem(SESSION, id) : sessionStorage.removeItem(SESSION) } catch { /* ignora */ }
+}
 
 function load(): DB {
   try {
@@ -11,7 +21,7 @@ function load(): DB {
     if (raw) {
       const db = JSON.parse(raw) as DB
       // A demo é recriada a cada dia para que as datas continuem fazendo sentido
-      if (db.seededOn === todayISO()) return db
+      if (db.seededOn === todayISO() && db.staff) return db
     }
   } catch { /* armazenamento indisponível: segue só em memória */ }
   return buildDB()
@@ -39,6 +49,11 @@ interface Store {
   notify: (n: Omit<Notice, 'id' | 'at' | 'read'>) => void
   markRead: (to: Notice['to']) => void
   reset: () => void
+  me: StaffUser | null
+  login: (email: string, password: string) => { ok: true; user: StaffUser } | { ok: false; error: string }
+  logout: () => void
+  addStaff: (u: Omit<StaffUser, 'id' | 'createdAt' | 'active'>) => StaffUser
+  updateStaff: (id: string, patch: Partial<StaffUser>) => void
 }
 
 const Ctx = createContext<Store | null>(null)
@@ -46,6 +61,7 @@ const Ctx = createContext<Store | null>(null)
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [db, setDb] = useState<DB>(load)
   const skipSave = useRef(false)
+  const [sessionId, setSessionId] = useState<string | null>(readSession)
 
   useEffect(() => {
     if (skipSave.current) { skipSave.current = false; return }
@@ -133,12 +149,29 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       updateDoctor(id, patch) { update(d => ({ ...d, doctors: d.doctors.map(x => (x.id === id ? { ...x, ...patch } : x)) })) },
       notify(n) { update(d => ({ ...d, notices: [notice(n), ...d.notices] })) },
       markRead(to) { update(d => ({ ...d, notices: d.notices.map(n => (n.to === to ? { ...n, read: true } : n)) })) },
+      me: db.staff.find(u => u.id === sessionId && u.active) ?? null,
+      login(email, password) {
+        const user = db.staff.find(u => u.email.toLowerCase() === email.trim().toLowerCase())
+        if (!user) return { ok: false, error: 'E-mail não cadastrado na equipe.' }
+        if (!user.active) return { ok: false, error: 'Usuário desativado. Fale com a gestão da clínica.' }
+        if (password !== DEMO_PASSWORD) return { ok: false, error: 'Senha incorreta.' }
+        writeSession(user.id)
+        setSessionId(user.id)
+        return { ok: true, user }
+      },
+      logout() { writeSession(null); setSessionId(null) },
+      addStaff(u) {
+        const nu: StaffUser = { ...u, id: newId('u'), active: true, createdAt: todayISO() }
+        update(d => ({ ...d, staff: [...d.staff, nu] }))
+        return nu
+      },
+      updateStaff(id, patch) { update(d => ({ ...d, staff: d.staff.map(u => (u.id === id ? { ...u, ...patch } : u)) })) },
       reset() {
         try { localStorage.removeItem(KEY) } catch { /* ignora */ }
         setDb(buildDB())
       },
     }
-  }, [db, update])
+  }, [db, update, sessionId])
 
   return <Ctx.Provider value={store}>{children}</Ctx.Provider>
 }

@@ -11,12 +11,13 @@ const DAYS: Weekday[] = [1, 2, 3, 4, 5]
 const TIMES = Array.from({ length: 21 }, (_, i) => 420 + i * 30) // 7h às 17h
 
 export function Team() {
-  const { db } = useStore()
+  const { db, me } = useStore()
+  const ownDoc = me?.role === 'medico' ? me.doctorId : undefined
   return (
     <div className="stack">
-      <PageHead index="05" eyebrow="Corpo clínico" title={<>Profissionais e <em>horários</em></>} />
+      <PageHead index="05" eyebrow="Corpo clínico" title={ownDoc ? <>Meus <em>horários</em></> : <>Profissionais e <em>horários</em></>} />
       <p className="muted lead">Os dias, horários e bloqueios definidos aqui mudam na hora os horários que o paciente vê no portal.</p>
-      <div className="team-grid">{db.doctors.map(d => <DoctorCard key={d.id} d={d} />)}</div>
+      <div className="team-grid">{db.doctors.filter(d => !ownDoc || d.id === ownDoc).map(d => <DoctorCard key={d.id} d={d} />)}</div>
     </div>
   )
 }
